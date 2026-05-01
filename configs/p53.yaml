@@ -1,0 +1,88 @@
+simulation:
+  timespan: 360000
+
+variables:
+  p53:
+    label: "p53"
+    initial: 27000
+  MDMc:
+    label: "MDM2 cytoplazmatyczne"
+    initial: 12000
+  MDMn:
+    label: "MDM2 jądrowe"
+    initial: 155000
+  PTEN:
+    label: "PTEN"
+    initial: 17000
+
+parameters:
+  p1: 8.8
+  p2: 440
+  p3: 100
+
+  d1: 1.375e-14
+  d2: 1.375e-4
+  d3: 3e-5
+
+  k1: 1.925e-4
+  k2: 1e5
+  k3: 1.5e5
+
+reactions:
+  a1:
+    equation: "{p1}"
+    effects:
+      p53: 1
+  a2:
+    equation: "{d1} * p53 * MDMn**2"
+    effects:
+      p53: -1
+  a3:
+    equation: "{p2} * p53**4 / (p53**4 + {k2}**4)"
+    effects:
+      MDMc: 1
+  a4:
+    equation: "{d2} * MDMc"
+    effects:
+      MDMc: -1
+  a5:
+    equation: "{k1} * {k3}**2 / ({k3}**2 + PTEN**2) * MDMc"
+    effects:
+      MDMc: -1
+      MDMn: 1
+  a6:
+    equation: "{d2} * MDMn"
+    effects:
+      MDMn: -1
+  a7:
+    equation: "{p3} * p53**4 / (p53**4 + {k2}**4)"
+    effects:
+      PTEN: 1
+  a8:
+    equation: "{d3} * PTEN"
+    effects:
+      PTEN: -1
+
+scenarios:
+  A:
+    description: "Brak uszkodzenia DNA, PTEN aktywny, brak siRNA"
+    parameters:
+      d2: 1.375e-5
+
+  B:
+    description: "Uszkodzenie DNA, PTEN aktywny, brak siRNA"
+
+  C:
+    description: "Nowotwór: PTEN wyłączony, uszkodzenie DNA, brak siRNA"
+    parameters:
+      p3: 0
+    initial:
+      PTEN: 0
+
+  D:
+    description: "Terapia: PTEN wyłączony, uszkodzenie DNA, siRNA aktywne"
+    parameters:
+      p2: 8.8
+      p3: 0
+    initial:
+      PTEN: 0
