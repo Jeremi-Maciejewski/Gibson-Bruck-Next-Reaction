@@ -77,7 +77,7 @@ def save_plots(output_dir: Path, timetable: list, states: dict, scenario_desc: s
 # builds model, runs RK4, saves plots and optionally CSV
 def run_single_scenario(config: dict, scenario: str | None, output_dir: Path,\
                         write_csv: bool, split : bool):
-    model, start, step, timespan, labels, description = cl.build_inputs(config, scenario)
+    model, start, timespan, labels, description = cl.build_inputs(config, scenario)
 
     # Run RK4 simulation
     # TODO: Change this to Next Reaction

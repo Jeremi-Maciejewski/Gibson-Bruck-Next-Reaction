@@ -1,3 +1,6 @@
+from pathlib import Path
+import matplotlib.pyplot as plt
+
 # Function that draws a plot of single reagent's change in time
 # Arguments:
 #   reagentstates - List of particle counts of a reagent in various points in time.
@@ -120,7 +123,6 @@ def save_plots(output_dir: Path, timetable: list, states: dict, scenario_desc: s
                 break
 
             except ValueError:
-                print("Failed to draw bundled plot. Likely cause is too many reagents - try using the --sp
-lit-plots option in future.")
+                print("Failed to draw bundled plot. Likely cause is too many reagents - try using the --split-plots option in future.")
                 print("Falling back to split plots automatically.")
                 split = False
